@@ -1,0 +1,355 @@
+/* ============================================
+   Notifications - 알림 시스템 스타일
+   ============================================ */
+
+/* ===== 알림 컨테이너 ===== */
+
+#notification-container {
+  position: fixed;
+  top: calc(var(--header-height) + 20px);
+  right: 20px;
+  z-index: var(--z-notification);
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  pointer-events: none;
+}
+
+/* ===== 알림 토스트 ===== */
+
+.notification-toast {
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  transform: translateX(400px);
+  opacity: 0;
+  transition: all 0.3s var(--ease-out-back);
+  pointer-events: auto;
+  border-left: 4px solid var(--primary-color);
+}
+
+.notification-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* 알림 레벨별 스타일 */
+.notification-toast.urgent {
+  border-left-color: var(--notification-urgent);
+  animation: shake 0.5s ease;
+}
+
+.notification-toast.medium {
+  border-left-color: var(--notification-medium);
+}
+
+.notification-toast.info {
+  border-left-color: var(--notification-info);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ===== 알림 아이콘 ===== */
+
+.notification-icon {
+  font-size: var(--text-2xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ===== 알림 컨텐츠 ===== */
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-title {
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+}
+
+.notification-message {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  white-space: pre-line;
+  line-height: var(--leading-normal);
+  word-break: break-word;
+}
+
+/* ===== 알림 액션 ===== */
+
+.notification-action {
+  margin-top: var(--space-sm);
+  background: var(--primary-color);
+  color: var(--text-inverse);
+  border: none;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.notification-action:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ===== 알림 닫기 버튼 ===== */
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: var(--text-xl);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.notification-close:hover {
+  color: var(--text-primary);
+}
+
+/* ===== 알림 설정 패널 ===== */
+
+.notification-settings-panel {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  max-width: 480px;
+}
+
+.notification-settings-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.notification-settings-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
+
+.notification-section {
+  margin-bottom: var(--space-xl);
+}
+
+.notification-section:last-child {
+  margin-bottom: 0;
+}
+
+.notification-section-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.notification-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.notification-option:last-child {
+  margin-bottom: 0;
+}
+
+.notification-option-label {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.notification-option-description {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+/* 토글 스위치 */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray-400);
+  transition: var(--transition-fast);
+  border-radius: var(--radius-full);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: var(--transition-fast);
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--primary-color);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+/* 볼륨 슬라이더 */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.volume-icon {
+  font-size: var(--text-xl);
+  color: var(--text-secondary);
+}
+
+.volume-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--gray-300);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  border: none;
+}
+
+.volume-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* 방해 금지 모드 */
+.dnd-mode {
+  padding: var(--space-md);
+  background-color: var(--warning-bg);
+  border: 1px solid var(--warning-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dnd-mode-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.dnd-mode-icon {
+  font-size: var(--text-xl);
+}
+
+.dnd-mode-text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--warning-dark);
+}
+
+/* 알림 설정 저장 버튼 */
+.notification-settings-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-light);
+}
+
+/* 모바일 대응 */
+@media (max-width: 767px) {
+  #notification-container {
+    top: calc(var(--header-height) + 10px);
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: none;
+  }
+
+  .notification-toast {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .notification-icon {
+    font-size: var(--text-xl);
+  }
+
+  .notification-title {
+    font-size: var(--text-xs);
+  }
+
+  .notification-message {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="실전 같은 주식 & 코인 트레이딩 시뮬레이터">
+  <meta name="theme-color" content="#1a73e8">
+
+  <title>StockCoin Simulator - 트레이딩 시뮬레이터</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-512.png">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/notifications.css">
+  <link rel="stylesheet" href="css/difficulty.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- 시작 화면 (난이도 선택) -->
+  <div id="start-screen" class="screen active">
+    <div class="start-container">
+      <div class="start-header">
+        <h1 class="start-title">💰 StockCoin Simulator</h1>
+        <p class="start-subtitle">실전 같은 주식 & 코인 트레이딩!</p>
+      </div>
+
+      <div class="difficulty-section">
+        <h2 class="section-title">난이도 선택</h2>
+
+        <div class="difficulty-options">
+          <!-- 쉬움 -->
+          <div class="difficulty-card" data-difficulty="easy">
+            <div class="difficulty-header">
+              <span class="difficulty-icon">🌱</span>
+              <span class="difficulty-name">쉬움</span>
+              <span class="difficulty-check">✓</span>
+            </div>
+            <p class="difficulty-subtitle">처음 해보는 분께 추천</p>
+            <ul class="difficulty-features">
+              <li>시작 자금: 5,000만원</li>
+              <li>변동성: 낮음 (50%)</li>
+              <li>수수료: 0.01%</li>
+              <li>뉴스: 명확한 힌트</li>
+              <li>파산: 없음</li>
+            </ul>
+          </div>
+
+          <!-- 보통 -->
+          <div class="difficulty-card selected" data-difficulty="normal">
+            <div class="difficulty-header">
+              <span class="difficulty-icon">⚖️</span>
+              <span class="difficulty-name">보통</span>
+              <span class="difficulty-check">✓</span>
+            </div>
+            <p class="difficulty-subtitle">적당한 도전을 원하는 분께</p>
+            <ul class="difficulty-features">
+              <li>시작 자금: 1,000만원</li>
+              <li>변동성: 보통 (100%)</li>
+              <li>수수료: 0.015%</li>
+              <li>뉴스: 보통 힌트</li>
+              <li>파산: 없음</li>
+            </ul>
+          </div>
+
+          <!-- 어려움 -->
+          <div class="difficulty-card" data-difficulty="hard">
+            <div class="difficulty-header">
+              <span class="difficulty-icon">🔥</span>
+              <span class="difficulty-name">어려움</span>
+              <span class="difficulty-check">✓</span>
+            </div>
+            <p class="difficulty-subtitle">전문가를 위한 하드코어</p>
+            <ul class="difficulty-features">
+              <li>시작 자금: 500만원</li>
+              <li>변동성: 높음 (150%)</li>
+              <li>수수료: 0.02%</li>
+              <li>뉴스: 모호한 힌트</li>
+              <li>파산: 가능 ⚠️</li>
+            </ul>
+          </div>
+
+          <!-- 커스텀 -->
+          <div class="difficulty-card" data-difficulty="custom">
+            <div class="difficulty-header">
+              <span class="difficulty-icon">⚙️</span>
+              <span class="difficulty-name">커스텀</span>
+              <span class="difficulty-check">✓</span>
+            </div>
+            <p class="difficulty-subtitle">내 마음대로 설정</p>
+            <ul class="difficulty-features">
+              <li>모든 설정 직접 조정 가능</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="options-section">
+        <h3 class="section-title">추가 옵션</h3>
+
+        <div class="option-group">
+          <label class="option-label">시간 가속:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="timeSpeed" value="1">
+              <span>1배속</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="timeSpeed" value="2" checked>
+              <span>2배속</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="timeSpeed" value="5">
+              <span>5배속</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="option-label">시장 개장:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="marketHours" value="24h" checked>
+              <span>24시간</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="marketHours" value="real">
+              <span>실제 시간 (9:00-15:30)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showTutorial" checked>
+            <span>튜토리얼 표시하기</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="start-actions">
+        <button class="btn btn-primary btn-large" id="startGameBtn">새 게임 시작</button>
+        <button class="btn btn-secondary btn-large" id="loadGameBtn">불러오기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 게임 화면 -->
+  <div id="game-screen" class="screen">
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo">💰 StockCoin</h1>
+        <div class="game-time">
+          <span id="gameTimeDisplay">00:00:00</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="asset-info">
+          <div class="asset-item">
+            <span class="asset-label">보유 현금</span>
+            <span class="asset-value" id="cashDisplay">$10,000,000</span>
+          </div>
+          <div class="asset-item">
+            <span class="asset-label">평가 자산</span>
+            <span class="asset-value" id="stockValueDisplay">$0</span>
+          </div>
+          <div class="asset-item">
+            <span class="asset-label">총 자산</span>
+            <span class="asset-value primary" id="totalAssetsDisplay">$10,000,000</span>
+          </div>
+          <div class="asset-item">
+            <span class="asset-label">손익률</span>
+            <span class="asset-value profit" id="profitRateDisplay">+0.00%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button class="icon-btn" id="settingsBtn" title="설정">⚙️</button>
+        <button class="icon-btn" id="saveBtn" title="저장">💾</button>
+        <button class="icon-btn" id="pauseBtn" title="일시정지">⏸️</button>
+      </div>
+    </header>
+
+    <!-- 뉴스 티커 -->
+    <div class="news-ticker">
+      <div class="news-ticker-content" id="newsTicker">
+        <span class="news-item">📰 시장 개장! 트레이딩을 시작하세요!</span>
+      </div>
+    </div>
+
+    <!-- 시장 분위기 -->
+    <div class="market-mood-bar">
+      <div class="market-mood-indicator" id="marketMoodIndicator">
+        <span class="mood-icon">🌡️</span>
+        <span class="mood-text" id="moodText">박스권</span>
+        <span class="mood-description" id="moodDescription">보통 변동성</span>
+      </div>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+      <!-- 탭 네비게이션 -->
+      <div class="tabs">
+        <button class="tab active" data-tab="stocks">📈 주식</button>
+        <button class="tab" data-tab="crypto">₿ 코인</button>
+        <button class="tab" data-tab="portfolio">💼 포트폴리오</button>
+        <button class="tab" data-tab="transactions">📊 거래일지</button>
+        <button class="tab" data-tab="statistics">📈 통계</button>
+      </div>
+
+      <!-- 탭 컨텐츠 -->
+      <div class="tab-content">
+        <!-- 주식 탭 -->
+        <div class="tab-panel active" id="stocks-panel">
+          <div class="panel-layout">
+            <!-- 종목 리스트 -->
+            <div class="stock-list-container">
+              <div class="list-header">
+                <input type="text" class="search-input" placeholder="종목 검색..." id="stockSearch">
+                <select class="filter-select" id="sectorFilter">
+                  <option value="all">전체 섹터</option>
+                  <option value="technology">기술</option>
+                  <option value="automotive">자동차</option>
+                  <option value="finance">금융</option>
+                  <option value="entertainment">엔터테인먼트</option>
+                  <option value="consumer">소비재</option>
+                  <option value="manufacturing">제조</option>
+                </select>
+                <select class="filter-select" id="sortBy">
+                  <option value="name">이름순</option>
+                  <option value="price">가격순</option>
+                  <option value="change">등락률순</option>
+                </select>
+              </div>
+
+              <div class="stock-list" id="stockList">
+                <!-- 종목 리스트가 여기에 동적으로 생성됨 -->
+              </div>
+            </div>
+
+            <!-- 종목 상세 & 차트 -->
+            <div class="stock-detail-container">
+              <div id="stockDetailPanel" class="stock-detail-panel">
+                <p class="empty-message">종목을 선택하세요</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 코인 탭 -->
+        <div class="tab-panel" id="crypto-panel">
+          <div class="panel-layout">
+            <div class="stock-list-container">
+              <div class="list-header">
+                <input type="text" class="search-input" placeholder="코인 검색..." id="cryptoSearch">
+                <select class="filter-select" id="cryptoSortBy">
+                  <option value="name">이름순</option>
+                  <option value="price">가격순</option>
+                  <option value="change">등락률순</option>
+                </select>
+              </div>
+
+              <div class="stock-list" id="cryptoList">
+                <!-- 코인 리스트가 여기에 동적으로 생성됨 -->
+              </div>
+            </div>
+
+            <div class="stock-detail-container">
+              <div id="cryptoDetailPanel" class="stock-detail-panel">
+                <p class="empty-message">코인을 선택하세요</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 포트폴리오 탭 -->
+        <div class="tab-panel" id="portfolio-panel">
+          <div id="portfolioContent">
+            <!-- 포트폴리오 내용이 여기에 동적으로 생성됨 -->
+          </div>
+        </div>
+
+        <!-- 거래일지 탭 -->
+        <div class="tab-panel" id="transactions-panel">
+          <div id="transactionsContent">
+            <!-- 거래일지가 여기에 동적으로 생성됨 -->
+          </div>
+        </div>
+
+        <!-- 통계 탭 -->
+        <div class="tab-panel" id="statistics-panel">
+          <div id="statisticsContent">
+            <!-- 통계가 여기에 동적으로 생성됨 -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 알림 컨테이너 -->
+  <div id="notification-container"></div>
+
+  <!-- 모달 컨테이너 -->
+  <div id="modal-container"></div>
+
+  <!-- 라이브러리 -->
+  <script src="lib/chart.min.js"></script>
+
+  <!-- 데이터 -->
+  <script src="js/data/stocks.js"></script>
+  <script src="js/data/newsDatabase.js"></script>
+  <script src="js/data/sectors.js"></script>
+
+  <!-- 엔진 -->
+  <script src="js/engine/priceEngine.js"></script>
+  <script src="js/engine/marketMood.js"></script>
+  <script src="js/engine/newsEngine.js"></script>
+  <script src="js/engine/timeManager.js"></script>
+  <script src="js/engine/difficultySystem.js"></script>
+
+  <!-- 트레이딩 -->
+  <script src="js/trading/order.js"></script>
+  <script src="js/trading/portfolio.js"></script>
+  <script src="js/trading/transactionLogger.js"></script>
+
+  <!-- UI -->
+  <script src="js/ui/chart.js"></script>
+  <script src="js/ui/stockList.js"></script>
+  <script src="js/ui/dashboard.js"></script>
+  <script src="js/ui/newsTicker.js"></script>
+  <script src="js/ui/notificationSystem.js"></script>
+  <script src="js/ui/transactionLog.js"></script>
+  <script src="js/ui/statistics.js"></script>
+  <script src="js/ui/difficultySelect.js"></script>
+
+  <!-- 저장소 -->
+  <script src="js/storage/saveLoad.js"></script>
+
+  <!-- 유틸 -->
+  <script src="js/utils/formatters.js"></script>
+  <script src="js/utils/calculator.js"></script>
+  <script src="js/utils/validators.js"></script>
+
+  <!-- 메인 -->
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Service Worker 등록 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "StockCoin Simulator - 트레이딩 시뮬레이터",
+  "short_name": "StockCoin",
+  "description": "실전 같은 주식 & 코인 트레이딩 시뮬레이터",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a73e8",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "games", "education"],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

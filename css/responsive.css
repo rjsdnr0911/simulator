@@ -1,0 +1,577 @@
+/* ============================================
+   Responsive Design - 반응형 디자인
+   ============================================ */
+
+/* ===== 태블릿 (768px - 1023px) ===== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  /* Header */
+  .header {
+    padding: 0 var(--space-md);
+  }
+
+  .asset-info {
+    gap: var(--space-lg);
+  }
+
+  .asset-label {
+    font-size: 11px;
+  }
+
+  .asset-value {
+    font-size: var(--text-base);
+  }
+
+  /* Panel Layout */
+  .panel-layout {
+    grid-template-columns: 320px 1fr;
+    gap: var(--space-md);
+  }
+
+  /* Stock Detail */
+  .stock-detail-name {
+    font-size: var(--text-xl);
+  }
+
+  .current-price {
+    font-size: var(--text-2xl);
+  }
+
+  .price-change {
+    font-size: var(--text-base);
+  }
+
+  /* Chart */
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* ===== 모바일 (0 - 767px) ===== */
+
+@media (max-width: 767px) {
+
+  /* Typography */
+  html {
+    font-size: 14px;
+  }
+
+  /* Header */
+  .header {
+    height: 60px;
+    padding: 0 var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .header-left {
+    gap: var(--space-sm);
+  }
+
+  .logo {
+    font-size: var(--text-base);
+  }
+
+  .game-time {
+    font-size: 11px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .header-center {
+    order: 3;
+    width: 100%;
+    margin: var(--space-sm) 0 0 0;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .asset-info {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .asset-item {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .asset-label {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .asset-value {
+    font-size: var(--text-sm);
+  }
+
+  .header-right {
+    gap: var(--space-xs);
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: var(--text-lg);
+  }
+
+  /* News Ticker */
+  .news-ticker {
+    top: 110px;
+    height: 32px;
+  }
+
+  .news-item {
+    font-size: 12px;
+    padding: 0 var(--space-lg);
+  }
+
+  /* Market Mood Bar */
+  .market-mood-bar {
+    top: 142px;
+    height: 32px;
+  }
+
+  .market-mood-indicator {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .mood-icon {
+    font-size: var(--text-base);
+  }
+
+  .mood-text {
+    font-size: 12px;
+  }
+
+  .mood-description {
+    display: none;
+  }
+
+  /* Main Content */
+  .main-content {
+    margin-top: 174px;
+  }
+
+  /* Tabs */
+  .tabs {
+    padding: 0 var(--space-sm);
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* Tab Content */
+  .tab-panel {
+    padding: var(--space-sm);
+  }
+
+  /* Panel Layout - 모바일에서는 1열 */
+  .panel-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    height: auto;
+  }
+
+  /* Stock List Container */
+  .stock-list-container {
+    max-height: 400px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .list-header {
+    padding: var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .search-input {
+    font-size: 12px;
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) 32px;
+  }
+
+  .filter-select {
+    font-size: 12px;
+    padding: var(--space-sm);
+  }
+
+  .stock-list {
+    padding: var(--space-xs);
+  }
+
+  /* Stock Item */
+  .stock-item {
+    padding: var(--space-sm);
+  }
+
+  .stock-name {
+    font-size: 12px;
+  }
+
+  .stock-sector {
+    font-size: 11px;
+  }
+
+  .stock-price {
+    font-size: 12px;
+  }
+
+  .stock-change {
+    font-size: 11px;
+  }
+
+  /* Stock Detail Container */
+  .stock-detail-container {
+    min-height: 500px;
+  }
+
+  .stock-detail-panel {
+    padding: var(--space-md);
+  }
+
+  .stock-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .stock-detail-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .stock-detail-name {
+    font-size: var(--text-xl);
+  }
+
+  .stock-detail-price {
+    text-align: left;
+    width: 100%;
+  }
+
+  .current-price {
+    font-size: var(--text-2xl);
+  }
+
+  .price-change {
+    font-size: var(--text-base);
+  }
+
+  /* Chart Container */
+  .chart-container {
+    height: 250px;
+    padding: var(--space-sm);
+  }
+
+  .chart-controls {
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .chart-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 11px;
+  }
+
+  /* Trading Form */
+  .trading-form {
+    padding: var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .trading-tab {
+    font-size: 12px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .quantity-presets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .preset-btn {
+    font-size: 11px;
+  }
+
+  .trading-summary {
+    padding: var(--space-sm);
+  }
+
+  .summary-row {
+    font-size: 12px;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 12px;
+  }
+
+  .btn-large {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--text-sm);
+  }
+
+  .btn-small {
+    padding: 4px var(--space-sm);
+    font-size: 11px;
+  }
+
+  /* Cards */
+  .card {
+    padding: var(--space-md);
+  }
+
+  .card-title {
+    font-size: var(--text-base);
+  }
+
+  /* Input */
+  .input-field {
+    font-size: 12px;
+  }
+
+  /* Modal */
+  .modal {
+    max-width: 95%;
+    max-height: 95%;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: var(--space-md);
+  }
+
+  .modal-title {
+    font-size: var(--text-lg);
+  }
+
+  /* Variables Override for Mobile */
+  :root {
+    --header-height: 110px;
+    --news-ticker-height: 32px;
+    --market-mood-height: 32px;
+    --tab-height: 40px;
+  }
+}
+
+/* ===== 초소형 모바일 (0 - 374px) ===== */
+
+@media (max-width: 374px) {
+
+  html {
+    font-size: 13px;
+  }
+
+  .header {
+    padding: 0 var(--space-xs);
+  }
+
+  .asset-info {
+    gap: var(--space-xs);
+  }
+
+  .asset-label {
+    font-size: 9px;
+  }
+
+  .asset-value {
+    font-size: 12px;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: var(--text-base);
+  }
+
+  .tab {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 11px;
+  }
+
+  .stock-detail-name {
+    font-size: var(--text-lg);
+  }
+
+  .current-price {
+    font-size: var(--text-xl);
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+}
+
+/* ===== 대형 데스크탑 (1440px+) ===== */
+
+@media (min-width: 1440px) {
+
+  .main-content {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .panel-layout {
+    grid-template-columns: 480px 1fr;
+  }
+
+  .chart-container {
+    height: 500px;
+  }
+}
+
+/* ===== 가로 모드 대응 (모바일/태블릿) ===== */
+
+@media (max-width: 1023px) and (orientation: landscape) {
+
+  .header {
+    height: 56px;
+  }
+
+  .header-center {
+    display: none;
+  }
+
+  .news-ticker-height: 28px;
+  }
+
+  .market-mood-bar {
+    height: 28px;
+  }
+
+  .main-content {
+    margin-top: 112px;
+  }
+
+  .panel-layout {
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 112px - var(--tab-height) - var(--space-lg) * 2);
+  }
+
+  .chart-container {
+    height: 250px;
+  }
+}
+
+/* ===== 프린트 스타일 ===== */
+
+@media print {
+
+  .header,
+  .news-ticker,
+  .market-mood-bar,
+  .tabs,
+  #notification-container,
+  .trading-form {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-top: 0;
+  }
+
+  .panel-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-list-container {
+    display: none;
+  }
+
+  body {
+    background-color: white;
+  }
+
+  .card,
+  .stock-detail-container {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}
+
+/* ===== 터치 디바이스 최적화 ===== */
+
+@media (hover: none) and (pointer: coarse) {
+
+  /* 터치 타겟 크기 증가 */
+  .btn,
+  .icon-btn,
+  .tab,
+  .stock-item {
+    min-height: 44px;
+  }
+
+  /* 호버 효과 제거 (터치 디바이스용) */
+  .btn:hover,
+  .icon-btn:hover,
+  .tab:hover,
+  .stock-item:hover {
+    transform: none;
+  }
+
+  /* 터치 피드백 */
+  .btn:active,
+  .icon-btn:active,
+  .tab:active,
+  .stock-item:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+
+  /* 스크롤 개선 */
+  .stock-list,
+  .tab-content {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* ===== 고해상도 디스플레이 (Retina) ===== */
+
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+
+  /* 더 선명한 텍스트 렌더링 */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 얇은 선 처리 */
+  .card,
+  .stock-item,
+  .trading-form {
+    border-width: 0.5px;
+  }
+}
+
+/* ===== 애니메이션 감소 선호 (접근성) ===== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .news-ticker-content {
+    animation: none;
+  }
+
+  .notification-toast {
+    transform: none;
+  }
+}

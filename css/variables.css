@@ -1,0 +1,230 @@
+/* ============================================
+   CSS Variables - 전역 변수 정의
+   ============================================ */
+
+:root {
+  /* ===== 색상 팔레트 ===== */
+
+  /* Primary Colors */
+  --primary-color: #1a73e8;
+  --primary-dark: #1557b0;
+  --primary-light: #4285f4;
+
+  /* Success/Profit Colors */
+  --success-color: #0f9d58;
+  --success-dark: #0d7d46;
+  --success-light: #34a853;
+  --profit-bg: #e6f4ea;
+
+  /* Danger/Loss Colors */
+  --danger-color: #d93025;
+  --danger-dark: #b31412;
+  --danger-light: #ea4335;
+  --loss-bg: #fce8e6;
+
+  /* Warning Colors */
+  --warning-color: #ea8600;
+  --warning-dark: #c27400;
+  --warning-light: #fbbc04;
+  --warning-bg: #fef7e0;
+
+  /* Neutral Colors */
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f4;
+  --gray-200: #e8eaed;
+  --gray-300: #dadce0;
+  --gray-400: #bdc1c6;
+  --gray-500: #9aa0a6;
+  --gray-600: #80868b;
+  --gray-700: #5f6368;
+  --gray-800: #3c4043;
+  --gray-900: #202124;
+
+  /* Background */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f4;
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Text Colors */
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  --text-inverse: #ffffff;
+
+  /* Border */
+  --border-color: #dadce0;
+  --border-light: #e8eaed;
+  --border-dark: #bdc1c6;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+  /* Market Mood Colors */
+  --bull-color: #0f9d58;
+  --bull-bg: #e6f4ea;
+  --bear-color: #d93025;
+  --bear-bg: #fce8e6;
+  --sideways-color: #ea8600;
+  --sideways-bg: #fef7e0;
+
+
+  /* ===== 타이포그래피 ===== */
+
+  /* Font Families */
+  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                  'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono',
+               Consolas, 'Courier New', monospace;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+
+  /* ===== 간격 ===== */
+
+  --space-xs: 0.25rem;     /* 4px */
+  --space-sm: 0.5rem;      /* 8px */
+  --space-md: 1rem;        /* 16px */
+  --space-lg: 1.5rem;      /* 24px */
+  --space-xl: 2rem;        /* 32px */
+  --space-2xl: 3rem;       /* 48px */
+  --space-3xl: 4rem;       /* 64px */
+
+
+  /* ===== Border Radius ===== */
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+
+  /* ===== Transitions ===== */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+
+
+  /* ===== Z-Index ===== */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 10000;
+
+
+  /* ===== 레이아웃 ===== */
+
+  --header-height: 80px;
+  --news-ticker-height: 40px;
+  --market-mood-height: 36px;
+  --tab-height: 48px;
+
+  --sidebar-width: 320px;
+  --detail-panel-width: 480px;
+
+  --container-max-width: 1440px;
+
+
+  /* ===== 애니메이션 ===== */
+
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+
+  /* ===== 난이도별 색상 ===== */
+
+  --difficulty-easy: #0f9d58;
+  --difficulty-normal: #1a73e8;
+  --difficulty-hard: #d93025;
+  --difficulty-custom: #ea8600;
+
+
+  /* ===== 알림 레벨별 색상 ===== */
+
+  --notification-urgent: #d93025;
+  --notification-medium: #ea8600;
+  --notification-info: #1a73e8;
+}
+
+
+/* ===== 다크모드 변수 ===== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Background */
+    --bg-primary: #202124;
+    --bg-secondary: #292a2d;
+    --bg-tertiary: #35363a;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+
+    /* Text Colors */
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --text-tertiary: #80868b;
+    --text-inverse: #202124;
+
+    /* Border */
+    --border-color: #3c4043;
+    --border-light: #35363a;
+    --border-dark: #5f6368;
+
+    /* Profit/Loss Background */
+    --profit-bg: rgba(15, 157, 88, 0.15);
+    --loss-bg: rgba(217, 48, 37, 0.15);
+    --warning-bg: rgba(234, 134, 0, 0.15);
+
+    /* Market Mood Background */
+    --bull-bg: rgba(15, 157, 88, 0.15);
+    --bear-bg: rgba(217, 48, 37, 0.15);
+    --sideways-bg: rgba(234, 134, 0, 0.15);
+
+    /* Shadow */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+}
+
+
+/* ===== 반응형 브레이크포인트 (참고용 주석) ===== */
+
+/*
+  Mobile: 0 - 767px
+  Tablet: 768px - 1023px
+  Desktop: 1024px+
+
+  사용 예시:
+  @media (max-width: 767px) { ... }
+  @media (min-width: 768px) and (max-width: 1023px) { ... }
+  @media (min-width: 1024px) { ... }
+*/
