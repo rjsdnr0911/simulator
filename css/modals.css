@@ -1,0 +1,330 @@
+/* ============================================
+   Modals - 모달 스타일
+   ============================================ */
+
+/* 모달 배경 */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  animation: fadeIn 0.2s ease;
+}
+
+/* 모달 컨테이너 */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-large {
+  max-width: 800px;
+}
+
+/* 모달 헤더 */
+.modal-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+/* 모달 바디 */
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* 모달 푸터 */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* 설정 섹션 */
+.settings-section {
+  margin-bottom: 32px;
+}
+
+.settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.settings-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 설정 아이템 */
+.setting-item {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.setting-item label {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.setting-item label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.setting-input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.setting-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* 볼륨 슬라이더 */
+input[type="range"].setting-input {
+  flex: 1;
+  min-width: 100px;
+}
+
+#volumeValue {
+  min-width: 50px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 튜토리얼 컨텐츠 */
+.tutorial-content {
+  line-height: 1.6;
+}
+
+.tutorial-section {
+  margin-bottom: 24px;
+}
+
+.tutorial-section:last-child {
+  margin-bottom: 0;
+}
+
+.tutorial-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tutorial-section p {
+  margin: 0 0 12px 0;
+  color: var(--text-secondary);
+}
+
+.tutorial-section ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.tutorial-section li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.tutorial-section strong {
+  color: var(--text-primary);
+}
+
+/* 거래 요약 */
+.trade-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--hover-bg);
+  border-radius: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-row.total {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+/* 수량 입력 */
+.quantity-input {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.quantity-input input[type="number"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.quantity-input input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* 거래 정보 */
+.trade-info {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--hover-bg);
+  border-radius: 8px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-row span:first-child {
+  color: var(--text-secondary);
+}
+
+.info-row span:last-child {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    padding: 12px 16px;
+  }
+
+  .settings-section {
+    margin-bottom: 24px;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .setting-input {
+    width: 100%;
+  }
+}

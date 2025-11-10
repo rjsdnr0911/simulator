@@ -368,16 +368,257 @@ function loadSavedGame() {
 
 // 설정 모달 표시
 function showSettingsModal() {
-  // TODO: 설정 모달 구현
   Utils.log('Opening settings...');
-  alert('설정 기능은 개발 중입니다.');
+
+  const modalHtml = `
+    <div class="modal-backdrop" onclick="closeSettingsModal()"></div>
+    <div class="modal modal-large">
+      <div class="modal-header">
+        <h3>⚙️ 설정</h3>
+        <button class="modal-close" onclick="closeSettingsModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <h4>게임 설정</h4>
+
+          <div class="setting-item">
+            <label>시간 배속</label>
+            <select id="settingTimeSpeed" class="setting-input">
+              <option value="1" ${gameState.timeSpeed === 1 ? 'selected' : ''}>1배속</option>
+              <option value="2" ${gameState.timeSpeed === 2 ? 'selected' : ''}>2배속</option>
+              <option value="5" ${gameState.timeSpeed === 5 ? 'selected' : ''}>5배속</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label>난이도 (변경 시 주의)</label>
+            <select id="settingDifficulty" class="setting-input">
+              <option value="easy" ${gameState.difficulty === 'easy' ? 'selected' : ''}>쉬움</option>
+              <option value="normal" ${gameState.difficulty === 'normal' ? 'selected' : ''}>보통</option>
+              <option value="hard" ${gameState.difficulty === 'hard' ? 'selected' : ''}>어려움</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>알림 설정</h4>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingPriceAlert5" ${CONFIG.notifications.priceAlert5 ? 'checked' : ''}>
+              <span>±5% 가격 변동 알림</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingPriceAlert10" ${CONFIG.notifications.priceAlert10 ? 'checked' : ''}>
+              <span>±10% 가격 변동 알림</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingMajorNews" ${CONFIG.notifications.majorNews ? 'checked' : ''}>
+              <span>중요 뉴스 알림</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingHoldingNews" ${CONFIG.notifications.holdingNews ? 'checked' : ''}>
+              <span>보유 종목 뉴스 알림</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingMarketChange" ${CONFIG.notifications.marketChange ? 'checked' : ''}>
+              <span>시장 분위기 변경 알림</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingSound" ${CONFIG.notifications.soundEnabled ? 'checked' : ''}>
+              <span>사운드 활성화</span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label>사운드 볼륨</label>
+            <input type="range" id="settingSoundVolume" min="0" max="100" value="${CONFIG.notifications.soundVolume * 100}" class="setting-input">
+            <span id="volumeValue">${Math.round(CONFIG.notifications.soundVolume * 100)}%</span>
+          </div>
+
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingDoNotDisturb" ${CONFIG.notifications.doNotDisturb ? 'checked' : ''}>
+              <span>방해 금지 모드</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>디버그</h4>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="settingDebug" ${CONFIG.debug ? 'checked' : ''}>
+              <span>디버그 모드</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeSettingsModal()">취소</button>
+        <button class="btn btn-primary" onclick="applySettings()">적용</button>
+      </div>
+    </div>
+  `;
+
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = modalHtml;
+
+    // 볼륨 슬라이더 이벤트
+    const volumeSlider = document.getElementById('settingSoundVolume');
+    const volumeValue = document.getElementById('volumeValue');
+    if (volumeSlider && volumeValue) {
+      volumeSlider.addEventListener('input', (e) => {
+        volumeValue.textContent = e.target.value + '%';
+      });
+    }
+  }
 }
+
+// 설정 모달 닫기
+window.closeSettingsModal = function() {
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = '';
+  }
+};
+
+// 설정 적용
+window.applySettings = function() {
+  // 시간 배속
+  const timeSpeed = parseInt(document.getElementById('settingTimeSpeed')?.value) || 2;
+  if (timeSpeed !== gameState.timeSpeed && typeof setTimeSpeed === 'function') {
+    setTimeSpeed(timeSpeed);
+  }
+
+  // 난이도 (주의: 게임 중 변경 시 영향)
+  const difficulty = document.getElementById('settingDifficulty')?.value || 'normal';
+  if (difficulty !== gameState.difficulty) {
+    const confirmed = confirm('난이도를 변경하면 게임 설정이 변경됩니다. 계속하시겠습니까?');
+    if (confirmed && typeof changeDifficulty === 'function') {
+      changeDifficulty(difficulty);
+    }
+  }
+
+  // 알림 설정
+  CONFIG.notifications.priceAlert5 = document.getElementById('settingPriceAlert5')?.checked || false;
+  CONFIG.notifications.priceAlert10 = document.getElementById('settingPriceAlert10')?.checked || false;
+  CONFIG.notifications.majorNews = document.getElementById('settingMajorNews')?.checked || false;
+  CONFIG.notifications.holdingNews = document.getElementById('settingHoldingNews')?.checked || false;
+  CONFIG.notifications.marketChange = document.getElementById('settingMarketChange')?.checked || false;
+  CONFIG.notifications.soundEnabled = document.getElementById('settingSound')?.checked || false;
+  CONFIG.notifications.doNotDisturb = document.getElementById('settingDoNotDisturb')?.checked || false;
+
+  // 사운드 볼륨
+  const volumeValue = parseInt(document.getElementById('settingSoundVolume')?.value) || 80;
+  CONFIG.notifications.soundVolume = volumeValue / 100;
+
+  // 디버그 모드
+  CONFIG.debug = document.getElementById('settingDebug')?.checked || false;
+
+  Utils.log('Settings applied');
+
+  showNotification({
+    type: 'SETTING_CHANGE',
+    title: '설정 변경',
+    message: '설정이 적용되었습니다',
+    duration: 2000
+  });
+
+  closeSettingsModal();
+};
 
 // 튜토리얼 모달 표시
 function showTutorialModal() {
-  // TODO: 튜토리얼 모달 구현
   Utils.log('Showing tutorial...');
+
+  const modalHtml = `
+    <div class="modal-backdrop" onclick="closeTutorialModal()"></div>
+    <div class="modal modal-large">
+      <div class="modal-header">
+        <h3>📚 게임 가이드</h3>
+        <button class="modal-close" onclick="closeTutorialModal()">×</button>
+      </div>
+      <div class="modal-body tutorial-content">
+        <div class="tutorial-section">
+          <h4>🎮 게임 목표</h4>
+          <p>주식과 암호화폐 거래를 통해 자산을 늘리세요! 목표는 최대한 많은 수익을 내는 것입니다.</p>
+        </div>
+
+        <div class="tutorial-section">
+          <h4>📊 기본 조작</h4>
+          <ul>
+            <li><strong>종목 선택:</strong> 주식/코인 탭에서 원하는 종목을 클릭</li>
+            <li><strong>매수:</strong> 종목 상세 화면에서 "매수" 버튼 클릭</li>
+            <li><strong>매도:</strong> 포트폴리오 탭에서 보유 종목을 매도</li>
+            <li><strong>일시정지:</strong> 상단 우측 ⏸️ 버튼으로 게임 일시정지</li>
+          </ul>
+        </div>
+
+        <div class="tutorial-section">
+          <h4>💡 팁</h4>
+          <ul>
+            <li><strong>뉴스 확인:</strong> 상단 뉴스 티커를 주시하세요. 가격에 영향을 미칩니다</li>
+            <li><strong>시장 분위기:</strong> 강세장/약세장/박스권을 확인하세요</li>
+            <li><strong>분산 투자:</strong> 여러 종목에 투자하면 리스크를 줄일 수 있습니다</li>
+            <li><strong>수수료:</strong> 거래할 때마다 수수료가 발생하니 주의하세요</li>
+            <li><strong>손절/익절:</strong> 적절한 타이밍에 매도하는 것이 중요합니다</li>
+          </ul>
+        </div>
+
+        <div class="tutorial-section">
+          <h4>📈 난이도별 특징</h4>
+          <ul>
+            <li><strong>쉬움:</strong> 시작 자금 5천만원, 낮은 변동성, 명확한 뉴스 힌트</li>
+            <li><strong>보통:</strong> 시작 자금 1천만원, 보통 변동성, 보통 힌트</li>
+            <li><strong>어려움:</strong> 시작 자금 500만원, 높은 변동성, 모호한 힌트, 파산 가능</li>
+          </ul>
+        </div>
+
+        <div class="tutorial-section">
+          <h4>⚡ 단축키</h4>
+          <ul>
+            <li><strong>Space:</strong> 일시정지/재개</li>
+            <li><strong>S:</strong> 저장</li>
+            <li><strong>Esc:</strong> 모달 닫기</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeTutorialModal()">시작하기</button>
+      </div>
+    </div>
+  `;
+
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = modalHtml;
+  }
 }
+
+// 튜토리얼 모달 닫기
+window.closeTutorialModal = function() {
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = '';
+  }
+};
 
 // showNotification 함수는 notificationSystem.js에서 정의됨
 
@@ -392,6 +633,64 @@ function gameLoop() {
 }
 
 // 게임 루프는 timeManager에서 관리됨
+
+// 키보드 단축키
+document.addEventListener('keydown', (e) => {
+  // 입력 필드에서는 단축키 비활성화
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+    return;
+  }
+
+  switch(e.key) {
+    case ' ': // Space - 일시정지/재개
+      e.preventDefault();
+      if (gameState.isRunning) {
+        togglePause();
+      }
+      break;
+
+    case 's':
+    case 'S': // S - 저장
+      e.preventDefault();
+      if (gameState.isRunning) {
+        saveGame();
+      }
+      break;
+
+    case 'Escape': // Esc - 모달 닫기
+      e.preventDefault();
+      const modalContainer = document.getElementById('modal-container');
+      if (modalContainer && modalContainer.innerHTML) {
+        modalContainer.innerHTML = '';
+      }
+      break;
+
+    case '1': // 1 - 주식 탭
+      e.preventDefault();
+      if (gameState.isRunning) switchTab('stocks');
+      break;
+
+    case '2': // 2 - 코인 탭
+      e.preventDefault();
+      if (gameState.isRunning) switchTab('crypto');
+      break;
+
+    case '3': // 3 - 포트폴리오 탭
+      e.preventDefault();
+      if (gameState.isRunning) switchTab('portfolio');
+      break;
+
+    case '4': // 4 - 거래일지 탭
+      e.preventDefault();
+      if (gameState.isRunning) switchTab('transactions');
+      break;
+
+    case '5': // 5 - 통계 탭
+      e.preventDefault();
+      if (gameState.isRunning) switchTab('statistics');
+      break;
+  }
+});
 
 // 디버그용 전역 함수
 window.debugGameState = () => {
