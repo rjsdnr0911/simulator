@@ -116,19 +116,28 @@ function startNewGame(difficulty, timeSpeed, showTutorial) {
 function initGame() {
   Utils.log('Initializing game...');
 
-  // TODO: 각 모듈 초기화
-  // - 종목 데이터 로드
-  // - 가격 엔진 시작
-  // - 뉴스 엔진 시작
-  // - 시장 분위기 시스템 시작
-  // - UI 업데이트
-  // - 타이머 시작
+  // 종목 데이터 초기화
+  initializeStockData();
 
-  // 임시: UI 업데이트
+  // 엔진 시작
+  startPriceEngine();
+  startNewsEngine();
+  startMarketMoodSystem();
+  startTimeManager();
+
+  // 자동 저장 설정
+  setupAutoSave();
+
+  // UI 초기화
   updateDashboard();
+  updateStockListUI();
+  updateCryptoListUI();
+  updateMarketMoodUI();
 
   // 이벤트 리스너 등록
   initGameEventListeners();
+
+  Utils.log('Game initialized successfully');
 }
 
 // 게임 이벤트 리스너 초기화
@@ -165,6 +174,42 @@ function initGameEventListeners() {
       togglePause();
     });
   }
+
+  // 검색 및 필터
+  const stockSearch = document.getElementById('stockSearch');
+  if (stockSearch) {
+    stockSearch.addEventListener('input', Utils.debounce(() => {
+      updateStockListUI();
+    }, 300));
+  }
+
+  const cryptoSearch = document.getElementById('cryptoSearch');
+  if (cryptoSearch) {
+    cryptoSearch.addEventListener('input', Utils.debounce(() => {
+      updateCryptoListUI();
+    }, 300));
+  }
+
+  const sectorFilter = document.getElementById('sectorFilter');
+  if (sectorFilter) {
+    sectorFilter.addEventListener('change', () => {
+      updateStockListUI();
+    });
+  }
+
+  const sortBy = document.getElementById('sortBy');
+  if (sortBy) {
+    sortBy.addEventListener('change', () => {
+      updateStockListUI();
+    });
+  }
+
+  const cryptoSortBy = document.getElementById('cryptoSortBy');
+  if (cryptoSortBy) {
+    cryptoSortBy.addEventListener('change', () => {
+      updateCryptoListUI();
+    });
+  }
 }
 
 // 탭 전환
@@ -186,17 +231,19 @@ function switchTab(tabName) {
   // 탭별 초기화
   switch(tabName) {
     case 'stocks':
+      if (typeof updateStockListUI === 'function') updateStockListUI();
+      break;
     case 'crypto':
-      // TODO: 종목 리스트 업데이트
+      if (typeof updateCryptoListUI === 'function') updateCryptoListUI();
       break;
     case 'portfolio':
-      // TODO: 포트폴리오 업데이트
+      if (typeof updatePortfolioUI === 'function') updatePortfolioUI();
       break;
     case 'transactions':
-      // TODO: 거래일지 업데이트
+      if (typeof updateTransactionLogUI === 'function') updateTransactionLogUI();
       break;
     case 'statistics':
-      // TODO: 통계 업데이트
+      if (typeof updateStatisticsUI === 'function') updateStatisticsUI();
       break;
   }
 }
@@ -260,20 +307,22 @@ function togglePause() {
 // 게임 저장
 function saveGame() {
   try {
-    // TODO: 저장 로직 구현
-    Utils.log('Game saved');
+    const success = saveGameData();
 
-    // 알림 표시
-    showNotification({
-      type: 'TRADE_SUCCESS',
-      title: '저장 완료',
-      message: '게임이 저장되었습니다.',
-      duration: 2000
-    });
+    if (success) {
+      showNotification({
+        type: 'SAVE_SUCCESS',
+        title: '저장 완료',
+        message: '게임이 저장되었습니다.',
+        duration: 2000
+      });
+    } else {
+      throw new Error('Save failed');
+    }
   } catch (error) {
     Utils.error('Save failed:', error);
     showNotification({
-      type: 'TRADE_ERROR',
+      type: 'SAVE_ERROR',
       title: '저장 실패',
       message: '게임 저장 중 오류가 발생했습니다.',
       duration: 3000
@@ -284,11 +333,33 @@ function saveGame() {
 // 게임 불러오기
 function loadSavedGame() {
   try {
-    // TODO: 불러오기 로직 구현
-    Utils.log('Loading game...');
+    const saveData = loadGameData();
 
-    // 임시: 저장된 게임이 없다는 알림
-    alert('저장된 게임이 없습니다.');
+    if (!saveData) {
+      alert('저장된 게임이 없습니다.');
+      return;
+    }
+
+    // 저장 데이터 적용
+    const success = applySaveData(saveData);
+
+    if (success) {
+      // 화면 전환
+      document.getElementById('start-screen').classList.remove('active');
+      document.getElementById('game-screen').classList.add('active');
+
+      // 게임 초기화
+      gameState.isRunning = true;
+      gameState.isPaused = false;
+      initGame();
+
+      showNotification({
+        type: 'SAVE_SUCCESS',
+        title: '불러오기 완료',
+        message: '게임을 불러왔습니다.',
+        duration: 2000
+      });
+    }
   } catch (error) {
     Utils.error('Load failed:', error);
     alert('게임 불러오기 중 오류가 발생했습니다.');
@@ -308,11 +379,7 @@ function showTutorialModal() {
   Utils.log('Showing tutorial...');
 }
 
-// 임시 알림 표시 함수 (나중에 notificationSystem.js로 이동)
-function showNotification(notification) {
-  Utils.log('Notification:', notification);
-  // TODO: 실제 알림 UI 표시
-}
+// showNotification 함수는 notificationSystem.js에서 정의됨
 
 // 게임 루프 (임시)
 function gameLoop() {
@@ -320,18 +387,11 @@ function gameLoop() {
     return;
   }
 
-  // 게임 시간 증가
-  gameState.gameTime += 1;
-  gameState.playTime += 1;
-
-  // 대시보드 업데이트
-  updateDashboard();
-
-  // TODO: 가격 업데이트, 뉴스 생성 등
+  // 게임 시간과 대시보드는 timeManager에서 관리
+  // 이 함수는 더 이상 필요하지 않음
 }
 
-// 1초마다 게임 루프 실행 (임시)
-setInterval(gameLoop, 1000);
+// 게임 루프는 timeManager에서 관리됨
 
 // 디버그용 전역 함수
 window.debugGameState = () => {
