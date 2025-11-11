@@ -98,7 +98,7 @@ function updateAllCryptoPrices() {
   updatePortfolioValue();
 }
 
-// 개별 주식 가격 업데이트
+// 개별 주식 가격 업데이트 (Geometric Brownian Motion)
 function updateStockPrice(stockId) {
   const stock = findStock(stockId);
   if (!stock) return;
@@ -106,40 +106,61 @@ function updateStockPrice(stockId) {
   const priceData = stockPrices[stockId];
   if (!priceData) return;
 
-  // 기본 변동률 계산 (랜덤 워크)
-  const baseVolatility = stock.volatility * CONFIG.volatility[gameState.difficulty];
-  let changePercent = Utils.randomFloat(-baseVolatility, baseVolatility);
+  // === Geometric Brownian Motion 구현 ===
+  // dS = μ*S*dt + σ*S*dW
+  // S(t+1) = S(t) * exp((μ - σ²/2)*dt + σ*sqrt(dt)*Z)
 
-  // 시장 분위기 영향
+  const S = priceData.current; // 현재 가격
+  const dt = 1 / 360; // 1분 = 1/360일 (하루 6시간 거래 기준)
+
+  // 변동성 (연율화)
+  const sigma = stock.volatility * CONFIG.volatility[gameState.difficulty];
+
+  // 드리프트 (연평균 수익률)
+  let mu = 0.0; // 기본 드리프트
+
+  // 시장 분위기 영향 (드리프트에 추가)
   const moodEffect = getMarketMoodEffect();
-  changePercent += moodEffect * 0.3;
+  mu += moodEffect;
 
-  // 섹터별 영향 (시장 전체 트렌드)
+  // 섹터 트렌드
   const sectorTrend = getSectorTrend(stock.sector);
-  changePercent += sectorTrend;
+  mu += sectorTrend;
 
-  // 뉴스 영향 적용
+  // 뉴스 영향 (강력한 드리프트)
   const newsEffect = getActiveNewsEffect(stockId);
-  changePercent += newsEffect;
+  mu += newsEffect * 5; // 뉴스는 강한 영향
 
-  // 가격 계산
-  const change = priceData.current * (changePercent / 100);
-  let newPrice = priceData.current + change;
+  // 표준정규분포에서 랜덤 샘플 (Box-Muller 변환)
+  const Z = generateNormalRandom();
+
+  // GBM 공식 적용
+  const drift = (mu - (sigma * sigma) / 2) * dt;
+  const diffusion = sigma * Math.sqrt(dt) * Z;
+  const newPrice = S * Math.exp(drift + diffusion);
+
+  // 서킷브레이커 (±30% 제한)
+  const maxPrice = priceData.open * 1.30;
+  const minPrice = priceData.open * 0.70;
+  let finalPrice = Math.max(minPrice, Math.min(maxPrice, newPrice));
 
   // 최소 가격 (100원)
-  newPrice = Math.max(100, newPrice);
+  finalPrice = Math.max(100, finalPrice);
 
   // 일일 최고/최저 업데이트
-  priceData.high = Math.max(priceData.high, newPrice);
-  priceData.low = Math.min(priceData.low, newPrice);
+  priceData.high = Math.max(priceData.high, finalPrice);
+  priceData.low = Math.min(priceData.low, finalPrice);
 
   // 가격 업데이트
   priceData.previous = priceData.current;
-  priceData.current = Math.round(newPrice);
+  priceData.current = Math.round(finalPrice);
   priceData.change = priceData.current - priceData.open;
   priceData.changePercent = ((priceData.current - priceData.open) / priceData.open) * 100;
   priceData.volume += Utils.randomInt(10000, 50000);
   priceData.lastUpdate = Date.now();
+
+  // OHLC 데이터 업데이트 (분봉)
+  updateOHLC(stockId, finalPrice, false);
 
   // 히스토리 저장
   addPriceHistory(stockId, false);
@@ -148,7 +169,7 @@ function updateStockPrice(stockId) {
   checkPriceAlert(stockId, false);
 }
 
-// 개별 암호화폐 가격 업데이트
+// 개별 암호화폐 가격 업데이트 (Geometric Brownian Motion)
 function updateCryptoPrice(cryptoId) {
   const crypto = findCrypto(cryptoId);
   if (!crypto) return;
@@ -156,42 +177,60 @@ function updateCryptoPrice(cryptoId) {
   const priceData = cryptoPrices[cryptoId];
   if (!priceData) return;
 
+  // === Geometric Brownian Motion 구현 ===
+  const S = priceData.current;
+  const dt = 20 / (360 * 60); // 20초 = 20/(360*60)일
+
   // 암호화폐는 변동성이 더 높음
-  const baseVolatility = crypto.volatility * CONFIG.volatility[gameState.difficulty];
-  let changePercent = Utils.randomFloat(-baseVolatility, baseVolatility);
+  const sigma = crypto.volatility * CONFIG.volatility[gameState.difficulty] * 1.5;
+
+  // 드리프트
+  let mu = 0.0;
 
   // 비트코인 영향 (비트코인이 아닌 경우)
   if (cryptoId !== 'BTC') {
     const btcData = cryptoPrices['BTC'];
-    if (btcData) {
-      const btcChange = ((btcData.current - btcData.previous) / btcData.previous) * 100;
-      changePercent += btcChange * 0.4; // BTC 변동의 40% 영향
+    if (btcData && btcData.previous > 0) {
+      const btcReturn = (btcData.current - btcData.previous) / btcData.previous;
+      mu += btcReturn * 0.6; // BTC 수익률의 60% 영향
     }
   }
 
   // 뉴스 영향
   const newsEffect = getActiveNewsEffect(cryptoId, true);
-  changePercent += newsEffect;
+  mu += newsEffect * 8; // 암호화폐는 뉴스에 더 민감
 
-  // 가격 계산
-  const change = priceData.current * (changePercent / 100);
-  let newPrice = priceData.current + change;
+  // 표준정규분포 랜덤
+  const Z = generateNormalRandom();
 
-  // 최소 가격
-  const minPrice = crypto.initialPrice * 0.01; // 초기 가격의 1%
-  newPrice = Math.max(minPrice, newPrice);
+  // GBM 공식
+  const drift = (mu - (sigma * sigma) / 2) * dt;
+  const diffusion = sigma * Math.sqrt(dt) * Z;
+  const newPrice = S * Math.exp(drift + diffusion);
+
+  // 서킷브레이커 (±50% - 암호화폐는 더 넓게)
+  const maxPrice = priceData.open * 1.50;
+  const minPrice = priceData.open * 0.50;
+  let finalPrice = Math.max(minPrice, Math.min(maxPrice, newPrice));
+
+  // 최소 가격 (초기 가격의 1%)
+  const absoluteMin = crypto.initialPrice * 0.01;
+  finalPrice = Math.max(absoluteMin, finalPrice);
 
   // 일일 최고/최저 업데이트
-  priceData.high = Math.max(priceData.high, newPrice);
-  priceData.low = Math.min(priceData.low, newPrice);
+  priceData.high = Math.max(priceData.high, finalPrice);
+  priceData.low = Math.min(priceData.low, finalPrice);
 
   // 가격 업데이트
   priceData.previous = priceData.current;
-  priceData.current = Math.round(newPrice);
+  priceData.current = Math.round(finalPrice);
   priceData.change = priceData.current - priceData.open;
   priceData.changePercent = ((priceData.current - priceData.open) / priceData.open) * 100;
   priceData.volume += Utils.randomInt(1000, 10000);
   priceData.lastUpdate = Date.now();
+
+  // OHLC 데이터 업데이트 (20초봉)
+  updateOHLC(cryptoId, finalPrice, true);
 
   // 히스토리 저장
   addPriceHistory(cryptoId, true);
@@ -362,4 +401,133 @@ function updatePriceEngineSpeed(newSpeed) {
   } else {
     gameState.timeSpeed = newSpeed;
   }
+}
+
+// ===== 헬퍼 함수 =====
+
+// 표준정규분포 랜덤 생성 (Box-Muller 변환)
+function generateNormalRandom() {
+  // Box-Muller 변환으로 N(0,1) 생성
+  let u1, u2;
+  do {
+    u1 = Math.random();
+  } while (u1 === 0); // u1이 0이면 log(0) = -∞이므로 제외
+
+  u2 = Math.random();
+
+  // Box-Muller 공식
+  const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+  // const z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(2.0 * Math.PI * u2); // 두 번째 값도 사용 가능
+
+  return z0;
+}
+
+// OHLC 데이터 저장소
+const ohlcData = {
+  stocks: {}, // { stockId: [{ timestamp, open, high, low, close, volume }, ...] }
+  crypto: {}  // { cryptoId: [{ timestamp, open, high, low, close, volume }, ...] }
+};
+
+// OHLC 캔들 간격 (밀리초)
+const CANDLE_INTERVAL = {
+  stock: 60000,  // 1분
+  crypto: 20000  // 20초
+};
+
+// 현재 캔들 임시 저장소
+const currentCandle = {
+  stocks: {},
+  crypto: {}
+};
+
+// OHLC 데이터 업데이트
+function updateOHLC(assetId, price, isCrypto = false) {
+  const type = isCrypto ? 'crypto' : 'stocks';
+  const interval = isCrypto ? CANDLE_INTERVAL.crypto : CANDLE_INTERVAL.stock;
+  const now = Date.now();
+
+  // OHLC 저장소 초기화
+  if (!ohlcData[type][assetId]) {
+    ohlcData[type][assetId] = [];
+  }
+
+  // 현재 캔들 초기화
+  if (!currentCandle[type][assetId]) {
+    currentCandle[type][assetId] = {
+      timestamp: now,
+      open: price,
+      high: price,
+      low: price,
+      close: price,
+      volume: 0
+    };
+  }
+
+  const candle = currentCandle[type][assetId];
+  const priceData = isCrypto ? cryptoPrices[assetId] : stockPrices[assetId];
+
+  // 새로운 캔들 시작 시간인지 확인
+  if (now - candle.timestamp >= interval) {
+    // 이전 캔들을 저장
+    ohlcData[type][assetId].push({ ...candle });
+
+    // 최대 캔들 개수 제한 (1000개)
+    if (ohlcData[type][assetId].length > 1000) {
+      ohlcData[type][assetId] = ohlcData[type][assetId].slice(-1000);
+    }
+
+    // 새 캔들 시작
+    currentCandle[type][assetId] = {
+      timestamp: now,
+      open: price,
+      high: price,
+      low: price,
+      close: price,
+      volume: priceData.volume
+    };
+  } else {
+    // 현재 캔들 업데이트
+    candle.high = Math.max(candle.high, price);
+    candle.low = Math.min(candle.low, price);
+    candle.close = price;
+    candle.volume = priceData.volume;
+  }
+}
+
+// OHLC 데이터 가져오기
+function getOHLCData(assetId, isCrypto = false, limit = 100) {
+  const type = isCrypto ? 'crypto' : 'stocks';
+  const data = ohlcData[type][assetId] || [];
+  return data.slice(-limit);
+}
+
+// 일일 시가 리셋 (새로운 거래일 시작)
+function resetDailyPrices() {
+  // 주식 시가 리셋
+  STOCKS.forEach(stock => {
+    const priceData = stockPrices[stock.id];
+    if (priceData) {
+      priceData.open = priceData.current;
+      priceData.high = priceData.current;
+      priceData.low = priceData.current;
+      priceData.change = 0;
+      priceData.changePercent = 0;
+      priceData.volume = 0;
+    }
+  });
+
+  // 암호화폐 시가 리셋
+  CRYPTO.forEach(crypto => {
+    const priceData = cryptoPrices[crypto.id];
+    if (priceData) {
+      priceData.open = priceData.current;
+      priceData.high = priceData.current;
+      priceData.low = priceData.current;
+      priceData.change = 0;
+      priceData.changePercent = 0;
+      priceData.volume = 0;
+    }
+  });
+
+  Utils.log('Daily prices reset');
 }
