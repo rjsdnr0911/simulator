@@ -454,8 +454,17 @@ function updateTradeSummary(assetId, isCrypto, action) {
   `;
 }
 
+// 거래 실행 중 플래그
+let isTradeExecuting = false;
+
 // 거래 실행
 window.executeTrade = function(assetId, isCrypto, action) {
+  // 중복 실행 방지
+  if (isTradeExecuting) {
+    Utils.log('Trade already in progress, ignoring duplicate click');
+    return;
+  }
+
   const quantity = parseInt(document.getElementById('tradeQuantity')?.value) || 0;
 
   if (quantity <= 0) {
@@ -463,13 +472,30 @@ window.executeTrade = function(assetId, isCrypto, action) {
     return;
   }
 
+  // 거래 실행 시작
+  isTradeExecuting = true;
+
+  // 버튼 비활성화
+  const buttons = document.querySelectorAll('.modal-footer button');
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.style.cursor = 'not-allowed';
+  });
+
+  // 주문 실행
+  let result;
   if (action === 'buy') {
-    executeBuyOrder(assetId, quantity, isCrypto);
+    result = executeBuyOrder(assetId, quantity, isCrypto);
   } else {
-    executeSellOrder(assetId, quantity, isCrypto);
+    result = executeSellOrder(assetId, quantity, isCrypto);
   }
 
-  closeTradeModal();
+  // 주문 완료 후 모달 닫기 (성공 여부 무관)
+  setTimeout(() => {
+    isTradeExecuting = false;
+    closeTradeModal();
+  }, 100);
 };
 
 // 모달 닫기

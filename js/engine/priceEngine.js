@@ -113,8 +113,8 @@ function updateStockPrice(stockId) {
   const S = priceData.current; // 현재 가격
   const dt = 1 / 360; // 1분 = 1/360일 (하루 6시간 거래 기준)
 
-  // 변동성 (연율화)
-  const sigma = stock.volatility * CONFIG.volatility[gameState.difficulty];
+  // 변동성 (연율화) - 게임성을 위해 3배 증가
+  const sigma = stock.volatility * CONFIG.volatility[gameState.difficulty] * 3.0;
 
   // 드리프트 (연평균 수익률)
   let mu = 0.0; // 기본 드리프트
@@ -181,8 +181,8 @@ function updateCryptoPrice(cryptoId) {
   const S = priceData.current;
   const dt = 20 / (360 * 60); // 20초 = 20/(360*60)일
 
-  // 암호화폐는 변동성이 더 높음
-  const sigma = crypto.volatility * CONFIG.volatility[gameState.difficulty] * 1.5;
+  // 암호화폐는 변동성이 더 높음 - 게임성을 위해 4.5배 증가
+  const sigma = crypto.volatility * CONFIG.volatility[gameState.difficulty] * 4.5;
 
   // 드리프트
   let mu = 0.0;
