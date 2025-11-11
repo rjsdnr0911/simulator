@@ -8,7 +8,7 @@ const STOCKS = [
   {
     id: 'TECH001',
     symbol: 'APEX',
-    name: 'Samsung Electronics',
+    name: 'Samsung Electronics Co., Ltd.',
     nameKo: '삼성전자',
     sector: 'technology',
     initialPrice: 72000, // 삼성전자 기준
@@ -19,7 +19,7 @@ const STOCKS = [
   {
     id: 'TECH002',
     symbol: 'NEXUS',
-    name: 'Naver',
+    name: 'NAVER Corporation',
     nameKo: '네이버',
     sector: 'technology',
     initialPrice: 185000, // 네이버 기준
@@ -30,7 +30,7 @@ const STOCKS = [
   {
     id: 'TECH003',
     symbol: 'QBIT',
-    name: 'Kakao',
+    name: 'Kakao Corp.',
     nameKo: '카카오',
     sector: 'technology',
     initialPrice: 128000, // 카카오 기준
@@ -41,7 +41,7 @@ const STOCKS = [
   {
     id: 'TECH004',
     symbol: 'CYNET',
-    name: 'SK Hynix',
+    name: 'SK hynix Inc.',
     nameKo: 'SK하이닉스',
     sector: 'technology',
     initialPrice: 45000, // SK하이닉스 기준
@@ -54,7 +54,7 @@ const STOCKS = [
   {
     id: 'AUTO001',
     symbol: 'EMOT',
-    name: 'Hyundai Motor',
+    name: 'Hyundai Motor Company',
     nameKo: '현대자동차',
     sector: 'automotive',
     initialPrice: 185000, // 현대차 기준
@@ -65,7 +65,7 @@ const STOCKS = [
   {
     id: 'AUTO002',
     symbol: 'KCAR',
-    name: 'Kia',
+    name: 'Kia Corporation',
     nameKo: '기아',
     sector: 'automotive',
     initialPrice: 92000, // 기아 기준
@@ -76,7 +76,7 @@ const STOCKS = [
   {
     id: 'AUTO003',
     symbol: 'BATT',
-    name: 'LG Energy Solution',
+    name: 'LG Energy Solution, Ltd.',
     nameKo: 'LG에너지솔루션',
     sector: 'automotive',
     initialPrice: 425000, // LG에너지솔루션 기준
@@ -89,7 +89,7 @@ const STOCKS = [
   {
     id: 'FIN001',
     symbol: 'KBANK',
-    name: 'KB Financial',
+    name: 'KB Financial Group Inc.',
     nameKo: 'KB금융',
     sector: 'finance',
     initialPrice: 58000, // KB금융 기준
@@ -100,7 +100,7 @@ const STOCKS = [
   {
     id: 'FIN002',
     symbol: 'FINTECH',
-    name: 'Kakao Bank',
+    name: 'Kakao Bank Corp.',
     nameKo: '카카오뱅크',
     sector: 'finance',
     initialPrice: 38000, // 카카오뱅크 기준
@@ -111,7 +111,7 @@ const STOCKS = [
   {
     id: 'FIN003',
     symbol: 'INSURE',
-    name: 'Samsung Life',
+    name: 'Samsung Life Insurance Co., Ltd.',
     nameKo: '삼성생명',
     sector: 'finance',
     initialPrice: 52000, // 삼성생명 기준
@@ -124,7 +124,7 @@ const STOCKS = [
   {
     id: 'ENT001',
     symbol: 'KPOP',
-    name: 'HYBE',
+    name: 'HYBE Co., Ltd.',
     nameKo: '하이브',
     sector: 'entertainment',
     initialPrice: 78000, // HYBE 기준
@@ -135,7 +135,7 @@ const STOCKS = [
   {
     id: 'ENT002',
     symbol: 'STREAM',
-    name: 'CJ ENM',
+    name: 'CJ ENM Co., Ltd.',
     nameKo: 'CJ ENM',
     sector: 'entertainment',
     initialPrice: 112000, // 넷플릭스 참고
@@ -146,7 +146,7 @@ const STOCKS = [
   {
     id: 'ENT003',
     symbol: 'GAME',
-    name: 'Netmarble',
+    name: 'Netmarble Corporation',
     nameKo: '넷마블',
     sector: 'entertainment',
     initialPrice: 88000, // 넷마블 기준
@@ -159,7 +159,7 @@ const STOCKS = [
   {
     id: 'CONS001',
     symbol: 'FOOD',
-    name: 'Orion',
+    name: 'Orion Corporation',
     nameKo: '오리온',
     sector: 'consumer',
     initialPrice: 52000, // 오리온 기준
@@ -170,7 +170,7 @@ const STOCKS = [
   {
     id: 'CONS002',
     symbol: 'BEAUTY',
-    name: 'Amorepacific',
+    name: 'Amorepacific Corporation',
     nameKo: '아모레퍼시픽',
     sector: 'consumer',
     initialPrice: 48000, // 아모레퍼시픽 기준
@@ -181,7 +181,7 @@ const STOCKS = [
   {
     id: 'CONS003',
     symbol: 'FASH',
-    name: 'F&F',
+    name: 'F&F Co., Ltd.',
     nameKo: '에프앤에프',
     sector: 'consumer',
     initialPrice: 28000, // F&F 기준
@@ -194,7 +194,7 @@ const STOCKS = [
   {
     id: 'MANU001',
     symbol: 'STEEL',
-    name: 'POSCO',
+    name: 'POSCO Holdings Inc.',
     nameKo: '포스코',
     sector: 'manufacturing',
     initialPrice: 42000, // 포스코 기준
@@ -205,7 +205,7 @@ const STOCKS = [
   {
     id: 'MANU002',
     symbol: 'CHEM',
-    name: 'LG Chem',
+    name: 'LG Chem, Ltd.',
     nameKo: 'LG화학',
     sector: 'manufacturing',
     initialPrice: 75000, // LG화학 기준
@@ -216,7 +216,7 @@ const STOCKS = [
   {
     id: 'MANU003',
     symbol: 'SHIP',
-    name: 'HD Hyundai Heavy',
+    name: 'HD Hyundai Heavy Industries Co., Ltd.',
     nameKo: 'HD현대중공업',
     sector: 'manufacturing',
     initialPrice: 68000, // HD현대중공업 기준
