@@ -374,6 +374,8 @@ function closeAllModals() {
   if (modalContainer) {
     modalContainer.innerHTML = '';
   }
+  // body의 modal-open 클래스 제거
+  document.body.classList.remove('modal-open');
 }
 
 // 전역으로 노출
@@ -385,6 +387,9 @@ function showSettingsModal() {
 
   // 기존 모달 먼저 닫기
   closeAllModals();
+
+  // body에 modal-open 클래스 추가
+  document.body.classList.add('modal-open');
 
   const modalHtml = `
     <div class="modal-backdrop" onclick="closeSettingsModal()"></div>
@@ -563,6 +568,9 @@ function showTutorialModal() {
 
   // 기존 모달 먼저 닫기
   closeAllModals();
+
+  // body에 modal-open 클래스 추가
+  document.body.classList.add('modal-open');
 
   const modalHtml = `
     <div class="modal-backdrop" onclick="closeTutorialModal()"></div>

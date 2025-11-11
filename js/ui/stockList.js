@@ -341,6 +341,9 @@ window.showTradeModal = function(assetId, isCrypto, action) {
     closeAllModals();
   }
 
+  // body에 modal-open 클래스 추가
+  document.body.classList.add('modal-open');
+
   const asset = isCrypto ? findCrypto(assetId) : findStock(assetId);
   const priceData = isCrypto ? cryptoPrices[assetId] : stockPrices[assetId];
 
