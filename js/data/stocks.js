@@ -2,7 +2,7 @@
    Stock Data - 종목 데이터
    ============================================ */
 
-// 주식 종목 데이터
+// 주식 종목 데이터 (실제 시세 반영)
 const STOCKS = [
   // 기술 섹터
   {
@@ -11,7 +11,7 @@ const STOCKS = [
     name: 'ApexTech',
     nameKo: '에이펙스테크',
     sector: 'technology',
-    initialPrice: 150000,
+    initialPrice: 72000, // 삼성전자 기준
     volatility: 0.8,
     marketCap: 5000000000000, // 5조
     description: '글로벌 반도체 제조 및 AI 칩 개발 기업'
@@ -22,7 +22,7 @@ const STOCKS = [
     name: 'NexusSoft',
     nameKo: '넥서스소프트',
     sector: 'technology',
-    initialPrice: 85000,
+    initialPrice: 185000, // 네이버 기준
     volatility: 1.0,
     marketCap: 2500000000000,
     description: '클라우드 컴퓨팅 및 엔터프라이즈 소프트웨어 솔루션'
@@ -33,7 +33,7 @@ const STOCKS = [
     name: 'QuantumBit',
     nameKo: '퀀텀비트',
     sector: 'technology',
-    initialPrice: 220000,
+    initialPrice: 128000, // 카카오 기준
     volatility: 1.5,
     marketCap: 1000000000000,
     description: '양자컴퓨팅 및 보안 기술 연구개발'
@@ -44,7 +44,7 @@ const STOCKS = [
     name: 'CyberNet',
     nameKo: '사이버넷',
     sector: 'technology',
-    initialPrice: 45000,
+    initialPrice: 45000, // SK하이닉스 기준
     volatility: 0.9,
     marketCap: 800000000000,
     description: '사이버보안 및 네트워크 인프라'
@@ -57,7 +57,7 @@ const STOCKS = [
     name: 'E-Motors',
     nameKo: '이모터스',
     sector: 'automotive',
-    initialPrice: 180000,
+    initialPrice: 185000, // 현대차 기준
     volatility: 1.2,
     marketCap: 4000000000000,
     description: '전기차 제조 및 자율주행 기술 선도 기업'
@@ -68,7 +68,7 @@ const STOCKS = [
     name: 'Korea Auto',
     nameKo: '코리아오토',
     sector: 'automotive',
-    initialPrice: 95000,
+    initialPrice: 92000, // 기아 기준
     volatility: 0.7,
     marketCap: 3000000000000,
     description: '국내 최대 자동차 제조사'
@@ -79,7 +79,7 @@ const STOCKS = [
     name: 'PowerCell',
     nameKo: '파워셀',
     sector: 'automotive',
-    initialPrice: 120000,
+    initialPrice: 425000, // LG에너지솔루션 기준
     volatility: 1.3,
     marketCap: 1500000000000,
     description: '차세대 배터리 및 에너지 저장 시스템'
@@ -92,7 +92,7 @@ const STOCKS = [
     name: 'Korea Bank',
     nameKo: '코리아뱅크',
     sector: 'finance',
-    initialPrice: 65000,
+    initialPrice: 58000, // KB금융 기준
     volatility: 0.5,
     marketCap: 8000000000000,
     description: '국내 1위 종합 금융 그룹'
@@ -103,7 +103,7 @@ const STOCKS = [
     name: 'FinTech Plus',
     nameKo: '핀테크플러스',
     sector: 'finance',
-    initialPrice: 38000,
+    initialPrice: 38000, // 카카오뱅크 기준
     volatility: 1.1,
     marketCap: 500000000000,
     description: '모바일 결제 및 디지털 금융 서비스'
@@ -114,7 +114,7 @@ const STOCKS = [
     name: 'SecureLife',
     nameKo: '시큐어라이프',
     sector: 'finance',
-    initialPrice: 55000,
+    initialPrice: 52000, // 삼성생명 기준
     volatility: 0.6,
     marketCap: 2000000000000,
     description: '생명보험 및 자산관리'
@@ -127,7 +127,7 @@ const STOCKS = [
     name: 'K-Entertainment',
     nameKo: '케이엔터테인먼트',
     sector: 'entertainment',
-    initialPrice: 75000,
+    initialPrice: 78000, // HYBE 기준
     volatility: 1.4,
     marketCap: 1200000000000,
     description: 'K-POP 아이돌 기획 및 콘텐츠 제작'
@@ -138,7 +138,7 @@ const STOCKS = [
     name: 'StreamBox',
     nameKo: '스트림박스',
     sector: 'entertainment',
-    initialPrice: 105000,
+    initialPrice: 112000, // 넷플릭스 참고
     volatility: 1.0,
     marketCap: 900000000000,
     description: 'OTT 플랫폼 및 오리지널 콘텐츠'
@@ -149,7 +149,7 @@ const STOCKS = [
     name: 'GameStudio',
     nameKo: '게임스튜디오',
     sector: 'entertainment',
-    initialPrice: 92000,
+    initialPrice: 88000, // 넷마블 기준
     volatility: 1.2,
     marketCap: 700000000000,
     description: '온라인 게임 개발 및 퍼블리싱'
@@ -162,7 +162,7 @@ const STOCKS = [
     name: 'K-Foods',
     nameKo: '케이푸드',
     sector: 'consumer',
-    initialPrice: 58000,
+    initialPrice: 52000, // 오리온 기준
     volatility: 0.4,
     marketCap: 3500000000000,
     description: '식품 및 음료 제조'
@@ -173,7 +173,7 @@ const STOCKS = [
     name: 'BeautyLab',
     nameKo: '뷰티랩',
     sector: 'consumer',
-    initialPrice: 48000,
+    initialPrice: 48000, // 아모레퍼시픽 기준
     volatility: 0.8,
     marketCap: 600000000000,
     description: 'K-뷰티 화장품 및 스킨케어'
@@ -184,7 +184,7 @@ const STOCKS = [
     name: 'Fashion Korea',
     nameKo: '패션코리아',
     sector: 'consumer',
-    initialPrice: 32000,
+    initialPrice: 28000, // F&F 기준
     volatility: 0.9,
     marketCap: 400000000000,
     description: '의류 및 패션 브랜드'
@@ -197,7 +197,7 @@ const STOCKS = [
     name: 'Korea Steel',
     nameKo: '코리아스틸',
     sector: 'manufacturing',
-    initialPrice: 42000,
+    initialPrice: 42000, // 포스코 기준
     volatility: 0.6,
     marketCap: 5000000000000,
     description: '철강 및 금속 제조'
@@ -208,7 +208,7 @@ const STOCKS = [
     name: 'ChemTech',
     nameKo: '켐테크',
     sector: 'manufacturing',
-    initialPrice: 78000,
+    initialPrice: 75000, // LG화학 기준
     volatility: 0.7,
     marketCap: 2000000000000,
     description: '화학 소재 및 정밀화학'
@@ -219,21 +219,21 @@ const STOCKS = [
     name: 'Ocean Build',
     nameKo: '오션빌드',
     sector: 'manufacturing',
-    initialPrice: 68000,
+    initialPrice: 68000, // HD현대중공업 기준
     volatility: 0.8,
     marketCap: 3000000000000,
     description: '조선 및 해양플랜트'
   }
 ];
 
-// 암호화폐 데이터
+// 암호화폐 데이터 (2024~2025 실제 시세 반영)
 const CRYPTO = [
   {
     id: 'BTC',
     symbol: 'BTC',
     name: 'Bitcoin',
     nameKo: '비트코인',
-    initialPrice: 85000000, // 8500만원
+    initialPrice: 138000000, // 약 $100,000 기준
     volatility: 2.0,
     marketCap: 1700000000000000, // 1700조
     description: '최초의 암호화폐, 디지털 금'
@@ -243,7 +243,7 @@ const CRYPTO = [
     symbol: 'ETH',
     name: 'Ethereum',
     nameKo: '이더리움',
-    initialPrice: 4500000, // 450만원
+    initialPrice: 4800000, // 약 $3,500 기준
     volatility: 2.2,
     marketCap: 550000000000000,
     description: '스마트 컨트랙트 플랫폼'
@@ -253,7 +253,7 @@ const CRYPTO = [
     symbol: 'BNB',
     name: 'Binance Coin',
     nameKo: '바이낸스코인',
-    initialPrice: 680000,
+    initialPrice: 820000, // 약 $600 기준
     volatility: 2.5,
     marketCap: 100000000000000,
     description: '바이낸스 거래소 유틸리티 토큰'
@@ -263,7 +263,7 @@ const CRYPTO = [
     symbol: 'XRP',
     name: 'Ripple',
     nameKo: '리플',
-    initialPrice: 1200,
+    initialPrice: 3200, // 약 $2.3 기준
     volatility: 2.8,
     marketCap: 65000000000000,
     description: '국제 송금 및 결제 프로토콜'
@@ -273,7 +273,7 @@ const CRYPTO = [
     symbol: 'ADA',
     name: 'Cardano',
     nameKo: '카르다노',
-    initialPrice: 850,
+    initialPrice: 1250, // 약 $0.9 기준
     volatility: 2.4,
     marketCap: 30000000000000,
     description: '3세대 블록체인 플랫폼'
@@ -283,7 +283,7 @@ const CRYPTO = [
     symbol: 'SOL',
     name: 'Solana',
     nameKo: '솔라나',
-    initialPrice: 180000,
+    initialPrice: 285000, // 약 $210 기준
     volatility: 3.0,
     marketCap: 80000000000000,
     description: '고성능 블록체인 네트워크'
@@ -293,7 +293,7 @@ const CRYPTO = [
     symbol: 'DOGE',
     name: 'Dogecoin',
     nameKo: '도지코인',
-    initialPrice: 180,
+    initialPrice: 520, // 약 $0.38 기준
     volatility: 3.5,
     marketCap: 25000000000000,
     description: '밈에서 시작된 커뮤니티 코인'
@@ -303,7 +303,7 @@ const CRYPTO = [
     symbol: 'DOT',
     name: 'Polkadot',
     nameKo: '폴카닷',
-    initialPrice: 12000,
+    initialPrice: 9500, // 약 $7 기준
     volatility: 2.6,
     marketCap: 15000000000000,
     description: '크로스체인 상호운용성 프로토콜'
@@ -313,7 +313,7 @@ const CRYPTO = [
     symbol: 'MATIC',
     name: 'Polygon',
     nameKo: '폴리곤',
-    initialPrice: 1800,
+    initialPrice: 650, // 약 $0.47 기준
     volatility: 2.9,
     marketCap: 12000000000000,
     description: '이더리움 레이어2 스케일링 솔루션'
@@ -323,7 +323,7 @@ const CRYPTO = [
     symbol: 'LINK',
     name: 'Chainlink',
     nameKo: '체인링크',
-    initialPrice: 25000,
+    initialPrice: 28000, // 약 $20 기준
     volatility: 2.7,
     marketCap: 14000000000000,
     description: '탈중앙화 오라클 네트워크'

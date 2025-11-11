@@ -11,7 +11,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
-  z-index: 9998;
+  z-index: var(--z-modal-backdrop);
   animation: fadeIn 0.2s ease;
 }
 
@@ -21,10 +21,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--card-bg);
+  background: var(--bg-primary);
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: var(--z-modal);
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
