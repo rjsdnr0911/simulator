@@ -336,6 +336,11 @@ function updateStockDetailUI(assetId) {
 
 // 매매 모달 표시
 window.showTradeModal = function(assetId, isCrypto, action) {
+  // 기존 모달 먼저 닫기
+  if (typeof closeAllModals === 'function') {
+    closeAllModals();
+  }
+
   const asset = isCrypto ? findCrypto(assetId) : findStock(assetId);
   const priceData = isCrypto ? cryptoPrices[assetId] : stockPrices[assetId];
 
@@ -466,8 +471,7 @@ window.executeTrade = function(assetId, isCrypto, action) {
 
 // 모달 닫기
 window.closeTradeModal = function() {
-  const modalContainer = document.getElementById('modal-container');
-  if (modalContainer) {
-    modalContainer.innerHTML = '';
+  if (typeof closeAllModals === 'function') {
+    closeAllModals();
   }
 };

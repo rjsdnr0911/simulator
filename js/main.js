@@ -366,9 +366,25 @@ function loadSavedGame() {
   }
 }
 
+// ===== 모달 관리 =====
+
+// 모든 모달 닫기 (통합 함수)
+function closeAllModals() {
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = '';
+  }
+}
+
+// 전역으로 노출
+window.closeAllModals = closeAllModals;
+
 // 설정 모달 표시
 function showSettingsModal() {
   Utils.log('Opening settings...');
+
+  // 기존 모달 먼저 닫기
+  closeAllModals();
 
   const modalHtml = `
     <div class="modal-backdrop" onclick="closeSettingsModal()"></div>
@@ -493,10 +509,7 @@ function showSettingsModal() {
 
 // 설정 모달 닫기
 window.closeSettingsModal = function() {
-  const modalContainer = document.getElementById('modal-container');
-  if (modalContainer) {
-    modalContainer.innerHTML = '';
-  }
+  closeAllModals();
 };
 
 // 설정 적용
@@ -547,6 +560,9 @@ window.applySettings = function() {
 // 튜토리얼 모달 표시
 function showTutorialModal() {
   Utils.log('Showing tutorial...');
+
+  // 기존 모달 먼저 닫기
+  closeAllModals();
 
   const modalHtml = `
     <div class="modal-backdrop" onclick="closeTutorialModal()"></div>
@@ -614,10 +630,7 @@ function showTutorialModal() {
 
 // 튜토리얼 모달 닫기
 window.closeTutorialModal = function() {
-  const modalContainer = document.getElementById('modal-container');
-  if (modalContainer) {
-    modalContainer.innerHTML = '';
-  }
+  closeAllModals();
 };
 
 // showNotification 함수는 notificationSystem.js에서 정의됨
@@ -659,10 +672,7 @@ document.addEventListener('keydown', (e) => {
 
     case 'Escape': // Esc - 모달 닫기
       e.preventDefault();
-      const modalContainer = document.getElementById('modal-container');
-      if (modalContainer && modalContainer.innerHTML) {
-        modalContainer.innerHTML = '';
-      }
+      closeAllModals();
       break;
 
     case '1': // 1 - 주식 탭

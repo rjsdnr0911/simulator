@@ -8,8 +8,8 @@ const STOCKS = [
   {
     id: 'TECH001',
     symbol: 'APEX',
-    name: 'ApexTech',
-    nameKo: '에이펙스테크',
+    name: 'Samsung Electronics',
+    nameKo: '삼성전자',
     sector: 'technology',
     initialPrice: 72000, // 삼성전자 기준
     volatility: 0.8,
@@ -19,8 +19,8 @@ const STOCKS = [
   {
     id: 'TECH002',
     symbol: 'NEXUS',
-    name: 'NexusSoft',
-    nameKo: '넥서스소프트',
+    name: 'Naver',
+    nameKo: '네이버',
     sector: 'technology',
     initialPrice: 185000, // 네이버 기준
     volatility: 1.0,
@@ -30,8 +30,8 @@ const STOCKS = [
   {
     id: 'TECH003',
     symbol: 'QBIT',
-    name: 'QuantumBit',
-    nameKo: '퀀텀비트',
+    name: 'Kakao',
+    nameKo: '카카오',
     sector: 'technology',
     initialPrice: 128000, // 카카오 기준
     volatility: 1.5,
@@ -41,8 +41,8 @@ const STOCKS = [
   {
     id: 'TECH004',
     symbol: 'CYNET',
-    name: 'CyberNet',
-    nameKo: '사이버넷',
+    name: 'SK Hynix',
+    nameKo: 'SK하이닉스',
     sector: 'technology',
     initialPrice: 45000, // SK하이닉스 기준
     volatility: 0.9,
@@ -54,8 +54,8 @@ const STOCKS = [
   {
     id: 'AUTO001',
     symbol: 'EMOT',
-    name: 'E-Motors',
-    nameKo: '이모터스',
+    name: 'Hyundai Motor',
+    nameKo: '현대자동차',
     sector: 'automotive',
     initialPrice: 185000, // 현대차 기준
     volatility: 1.2,
@@ -65,8 +65,8 @@ const STOCKS = [
   {
     id: 'AUTO002',
     symbol: 'KCAR',
-    name: 'Korea Auto',
-    nameKo: '코리아오토',
+    name: 'Kia',
+    nameKo: '기아',
     sector: 'automotive',
     initialPrice: 92000, // 기아 기준
     volatility: 0.7,
@@ -76,8 +76,8 @@ const STOCKS = [
   {
     id: 'AUTO003',
     symbol: 'BATT',
-    name: 'PowerCell',
-    nameKo: '파워셀',
+    name: 'LG Energy Solution',
+    nameKo: 'LG에너지솔루션',
     sector: 'automotive',
     initialPrice: 425000, // LG에너지솔루션 기준
     volatility: 1.3,
@@ -89,8 +89,8 @@ const STOCKS = [
   {
     id: 'FIN001',
     symbol: 'KBANK',
-    name: 'Korea Bank',
-    nameKo: '코리아뱅크',
+    name: 'KB Financial',
+    nameKo: 'KB금융',
     sector: 'finance',
     initialPrice: 58000, // KB금융 기준
     volatility: 0.5,
@@ -100,8 +100,8 @@ const STOCKS = [
   {
     id: 'FIN002',
     symbol: 'FINTECH',
-    name: 'FinTech Plus',
-    nameKo: '핀테크플러스',
+    name: 'Kakao Bank',
+    nameKo: '카카오뱅크',
     sector: 'finance',
     initialPrice: 38000, // 카카오뱅크 기준
     volatility: 1.1,
@@ -111,8 +111,8 @@ const STOCKS = [
   {
     id: 'FIN003',
     symbol: 'INSURE',
-    name: 'SecureLife',
-    nameKo: '시큐어라이프',
+    name: 'Samsung Life',
+    nameKo: '삼성생명',
     sector: 'finance',
     initialPrice: 52000, // 삼성생명 기준
     volatility: 0.6,
@@ -124,8 +124,8 @@ const STOCKS = [
   {
     id: 'ENT001',
     symbol: 'KPOP',
-    name: 'K-Entertainment',
-    nameKo: '케이엔터테인먼트',
+    name: 'HYBE',
+    nameKo: '하이브',
     sector: 'entertainment',
     initialPrice: 78000, // HYBE 기준
     volatility: 1.4,
@@ -135,8 +135,8 @@ const STOCKS = [
   {
     id: 'ENT002',
     symbol: 'STREAM',
-    name: 'StreamBox',
-    nameKo: '스트림박스',
+    name: 'CJ ENM',
+    nameKo: 'CJ ENM',
     sector: 'entertainment',
     initialPrice: 112000, // 넷플릭스 참고
     volatility: 1.0,
@@ -146,8 +146,8 @@ const STOCKS = [
   {
     id: 'ENT003',
     symbol: 'GAME',
-    name: 'GameStudio',
-    nameKo: '게임스튜디오',
+    name: 'Netmarble',
+    nameKo: '넷마블',
     sector: 'entertainment',
     initialPrice: 88000, // 넷마블 기준
     volatility: 1.2,
@@ -159,8 +159,8 @@ const STOCKS = [
   {
     id: 'CONS001',
     symbol: 'FOOD',
-    name: 'K-Foods',
-    nameKo: '케이푸드',
+    name: 'Orion',
+    nameKo: '오리온',
     sector: 'consumer',
     initialPrice: 52000, // 오리온 기준
     volatility: 0.4,
@@ -170,8 +170,8 @@ const STOCKS = [
   {
     id: 'CONS002',
     symbol: 'BEAUTY',
-    name: 'BeautyLab',
-    nameKo: '뷰티랩',
+    name: 'Amorepacific',
+    nameKo: '아모레퍼시픽',
     sector: 'consumer',
     initialPrice: 48000, // 아모레퍼시픽 기준
     volatility: 0.8,
@@ -181,8 +181,8 @@ const STOCKS = [
   {
     id: 'CONS003',
     symbol: 'FASH',
-    name: 'Fashion Korea',
-    nameKo: '패션코리아',
+    name: 'F&F',
+    nameKo: '에프앤에프',
     sector: 'consumer',
     initialPrice: 28000, // F&F 기준
     volatility: 0.9,
@@ -194,8 +194,8 @@ const STOCKS = [
   {
     id: 'MANU001',
     symbol: 'STEEL',
-    name: 'Korea Steel',
-    nameKo: '코리아스틸',
+    name: 'POSCO',
+    nameKo: '포스코',
     sector: 'manufacturing',
     initialPrice: 42000, // 포스코 기준
     volatility: 0.6,
@@ -205,8 +205,8 @@ const STOCKS = [
   {
     id: 'MANU002',
     symbol: 'CHEM',
-    name: 'ChemTech',
-    nameKo: '켐테크',
+    name: 'LG Chem',
+    nameKo: 'LG화학',
     sector: 'manufacturing',
     initialPrice: 75000, // LG화학 기준
     volatility: 0.7,
@@ -216,8 +216,8 @@ const STOCKS = [
   {
     id: 'MANU003',
     symbol: 'SHIP',
-    name: 'Ocean Build',
-    nameKo: '오션빌드',
+    name: 'HD Hyundai Heavy',
+    nameKo: 'HD현대중공업',
     sector: 'manufacturing',
     initialPrice: 68000, // HD현대중공업 기준
     volatility: 0.8,
