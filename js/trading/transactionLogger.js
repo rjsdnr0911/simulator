@@ -296,3 +296,66 @@ function exportTransactionStats() {
     transactionCount: transactionLog.transactions.length
   };
 }
+
+// CSV 내보내기
+function exportTransactionsToCSV() {
+  if (transactionLog.transactions.length === 0) {
+    alert('내보낼 거래 기록이 없습니다.');
+    return;
+  }
+
+  // CSV 헤더
+  const headers = [
+    '거래번호', '거래유형', '종목명', '자산유형', '수량', '가격',
+    '총액', '수수료', '손익', '손익률', '거래시간', '게임시간'
+  ];
+
+  // CSV 데이터
+  const rows = transactionLog.transactions.map(txn => [
+    txn.id,
+    txn.type === 'BUY' ? '매수' : '매도',
+    txn.assetName,
+    txn.assetType === 'crypto' ? '암호화폐' : '주식',
+    txn.quantity,
+    txn.price,
+    txn.totalAmount,
+    txn.fee,
+    txn.profitLoss || 0,
+    txn.profitLossPercent || 0,
+    new Date(txn.timestamp).toLocaleString('ko-KR'),
+    Utils.formatTime(txn.gameTime)
+  ]);
+
+  // CSV 문자열 생성
+  let csvContent = headers.join(',') + '\n';
+  rows.forEach(row => {
+    csvContent += row.join(',') + '\n';
+  });
+
+  // Blob 생성 및 다운로드
+  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', `거래일지_${new Date().toISOString().slice(0, 10)}.csv`);
+  link.style.visibility = 'hidden';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  Utils.log('Transactions exported to CSV');
+
+  if (typeof showNotification === 'function') {
+    showNotification({
+      type: 'SUCCESS',
+      title: '내보내기 완료',
+      message: `${transactionLog.transactions.length}개의 거래 기록이 저장되었습니다`,
+      duration: 3000
+    });
+  }
+}
+
+// 전역으로 노출
+window.exportTransactionsToCSV = exportTransactionsToCSV;

@@ -2,36 +2,44 @@
    Notification System - 알림 시스템
    ============================================ */
 
+// 알림 우선순위 레벨
+const PRIORITY_LEVELS = {
+  URGENT: 3,    // 항상 표시 (거래 에러, 중요 가격 변동)
+  MEDIUM: 2,    // 일반 알림 (거래 완료, 뉴스)
+  INFO: 1       // 정보성 알림 (설정 변경, 시장 분위기)
+};
+
 // 알림 타입 정의
 const NOTIFICATION_TYPES = {
   // 거래 관련
-  TRADE_SUCCESS: { icon: '✅', color: '#10b981', duration: 3000 },
-  TRADE_ERROR: { icon: '❌', color: '#ef4444', duration: 3000 },
-  TRADE_PROFIT: { icon: '💰', color: '#10b981', duration: 4000 },
-  TRADE_LOSS: { icon: '📉', color: '#ef4444', duration: 4000 },
+  TRADE_SUCCESS: { icon: '✅', color: '#10b981', duration: 3000, priority: PRIORITY_LEVELS.MEDIUM },
+  TRADE_ERROR: { icon: '❌', color: '#ef4444', duration: 3000, priority: PRIORITY_LEVELS.URGENT },
+  TRADE_PROFIT: { icon: '💰', color: '#10b981', duration: 4000, priority: PRIORITY_LEVELS.MEDIUM },
+  TRADE_LOSS: { icon: '📉', color: '#ef4444', duration: 4000, priority: PRIORITY_LEVELS.MEDIUM },
 
   // 가격 변동
-  PRICE_SURGE: { icon: '🚀', color: '#10b981', duration: 5000 },
-  PRICE_DROP: { icon: '⚠️', color: '#ef4444', duration: 5000 },
-  PRICE_CHANGE: { icon: '📊', color: '#3b82f6', duration: 3000 },
+  PRICE_SURGE: { icon: '🚀', color: '#10b981', duration: 5000, priority: PRIORITY_LEVELS.URGENT },
+  PRICE_DROP: { icon: '⚠️', color: '#ef4444', duration: 5000, priority: PRIORITY_LEVELS.URGENT },
+  PRICE_CHANGE: { icon: '📊', color: '#3b82f6', duration: 3000, priority: PRIORITY_LEVELS.MEDIUM },
 
   // 뉴스
-  NEWS_POSITIVE: { icon: '📈', color: '#10b981', duration: 6000 },
-  NEWS_NEGATIVE: { icon: '📉', color: '#ef4444', duration: 6000 },
-  HOLDING_NEWS: { icon: '💼', color: '#8b5cf6', duration: 5000 },
+  NEWS_POSITIVE: { icon: '📈', color: '#10b981', duration: 6000, priority: PRIORITY_LEVELS.MEDIUM },
+  NEWS_NEGATIVE: { icon: '📉', color: '#ef4444', duration: 6000, priority: PRIORITY_LEVELS.MEDIUM },
+  HOLDING_NEWS: { icon: '💼', color: '#8b5cf6', duration: 5000, priority: PRIORITY_LEVELS.URGENT },
 
   // 시장
-  MARKET_CHANGE: { icon: '🌡️', color: '#f59e0b', duration: 4000 },
-  MARKET_OPEN: { icon: '🔔', color: '#10b981', duration: 4000 },
-  MARKET_CLOSE: { icon: '🔔', color: '#6b7280', duration: 4000 },
+  MARKET_CHANGE: { icon: '🌡️', color: '#f59e0b', duration: 4000, priority: PRIORITY_LEVELS.INFO },
+  MARKET_OPEN: { icon: '🔔', color: '#10b981', duration: 4000, priority: PRIORITY_LEVELS.INFO },
+  MARKET_CLOSE: { icon: '🔔', color: '#6b7280', duration: 4000, priority: PRIORITY_LEVELS.INFO },
 
   // 자산
-  ASSET_MILESTONE: { icon: '🎉', color: '#8b5cf6', duration: 5000 },
+  ASSET_MILESTONE: { icon: '🎉', color: '#8b5cf6', duration: 5000, priority: PRIORITY_LEVELS.MEDIUM },
 
   // 시스템
-  SETTING_CHANGE: { icon: '⚙️', color: '#6b7280', duration: 2000 },
-  SAVE_SUCCESS: { icon: '💾', color: '#10b981', duration: 2000 },
-  SAVE_ERROR: { icon: '⚠️', color: '#ef4444', duration: 3000 }
+  SETTING_CHANGE: { icon: '⚙️', color: '#6b7280', duration: 2000, priority: PRIORITY_LEVELS.INFO },
+  SAVE_SUCCESS: { icon: '💾', color: '#10b981', duration: 2000, priority: PRIORITY_LEVELS.INFO },
+  SAVE_ERROR: { icon: '⚠️', color: '#ef4444', duration: 3000, priority: PRIORITY_LEVELS.URGENT },
+  SUCCESS: { icon: '✅', color: '#10b981', duration: 3000, priority: PRIORITY_LEVELS.MEDIUM }
 };
 
 // 알림 큐
